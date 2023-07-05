@@ -12,7 +12,7 @@ class Category(models.Model):
         return self.name
 
 
-@receiver(  pre_save, sender=Category)
+@receiver(pre_save, sender=Category)
 def category_slug_save(sender, instance, *args, **kwargs):
     # print('***************************************')
     # print('SIGNAL IS WORKED!')
