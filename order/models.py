@@ -3,11 +3,11 @@ from django.contrib.auth import get_user_model
 from product.models import Product
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 # from account.send_mail import send_notification
-# from shopApi.tasks import send_notification_task
+from config.tasks import send_notification_task
 
 User = get_user_model()
-
 
 STATUS_CHOICES = (
     ('open', 'Открыт'),
@@ -39,4 +39,8 @@ class Order(models.Model):
         return f'{self.id} -> {self.user}'
 
 
-
+@receiver(post_save, sender=Order)
+def order_post_save(sender, instance, *args, **kwargs):
+    send_notification_task.delay(
+        instance.user.email, instance.id, instance.total_sum
+    )
