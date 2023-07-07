@@ -1,4 +1,8 @@
+from django.db import transaction
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from rest_framework.response import Response
+
 from .models import OrderItem, Order
 from product.models import Product
 
@@ -20,12 +24,34 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
 
+    def validate_products(self, products):
+        for product in products:
+            product_id = product['product'].id
+
+            product_data = get_object_or_404(Product, id=product_id)
+
+            if product_data.quantity < product['quantity']:
+                raise serializers.ValidationError(f'В наличии {product_data.title} {product_data.quantity} шт')
+        return products
+
+    # @transaction.atomic
     def create(self, validated_data):
         products = validated_data.pop('products')
         user = self.context['request'].user
         total_sum = 0
         for product in products:
+            product_id = product['product'].id
             total_sum += product['quantity'] * product['product'].price
+
+            product_data = get_object_or_404(Product, id=product_id)
+
+
+            # if product_data.quantity < product['quantity']:
+            #     # Если недостаточно товара на складе, откатываем транзакцию и возвращаем ошибку
+            #     transaction.set_rollback(True)
+            #     return Response(f'На наличии только {product_data.quantity} шт', status=404)
+            product_data.quantity -= product['quantity']
+            product_data.save()
 
         order = Order.objects.create(user=user, total_sum=total_sum,
                                      status='open', **validated_data)
