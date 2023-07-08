@@ -20,7 +20,7 @@ class Product(models.Model):
                                  on_delete=models.RESTRICT)
     image = models.ImageField(upload_to='images')
     price = models.DecimalField(max_digits=12, decimal_places=2)
-    quantity = models.PositiveSmallIntegerField(default=1)
+    quantity = models.PositiveSmallIntegerField(default=0)
     stock = models.CharField(choices=STATUS_CHOICES, max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
