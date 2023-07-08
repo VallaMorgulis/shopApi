@@ -234,4 +234,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 # redis-server
 # celery -A config worker -l INFO - запуск Celery
 
+# sudo docker-compose up -d --build
+# sudo docker-compose exec web bash
+
 
