@@ -235,20 +235,19 @@ CELERY_RESULT_SERIALIZER = 'json'
 # celery -A config worker -l INFO - запуск Celery
 
    #  1  git clone https://<репозиторий>
-   #  2  sudo apt install docker.io
-   #  3  sudo apt-get update
-   #  4  sudo apt install docker-compose
-   #  5  sudo service docker start
-   #  6  cd <dir project>
-   #  7  nano .env
-   #  8  sudo service docker start
-   #  9  sudo docker-compose up -d --build
-   # 10  sudo docker-compose start
-   # 11  sudo docker-compose up -d
-   # 12  sudo docker-compose exec web bash
-   # После 12 команды попадаем в контейнер Docker
-   # 13 python3 manage.py collectstatic
-   # 14 python3 manage.py createsuperuser
+   #  2  cd <dir project>
+   #  3  nano .env
+   #  4  sudo apt-get update
+   #  5  sudo apt install docker.io
+   #  6  sudo apt install docker-compose
+   #  7  sudo service docker start
+   #  8  sudo docker-compose up -d --build
+   #  9  sudo docker-compose start
+   # 10  sudo docker-compose up -d
+   # 11  sudo docker-compose exec web bash
+   # После 11 команды попадаем в контейнер Docker
+   # 12 python3 manage.py collectstatic
+   # 13 python3 manage.py createsuperuser
 
 
 
